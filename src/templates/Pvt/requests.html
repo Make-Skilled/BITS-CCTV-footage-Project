@@ -36,6 +36,7 @@
           <th>Request Stream Id</th>
           <th>Status</th>
           <th>Request Id</th>
+          <th>Location</th>
           <th>Accept</th>
           <th>Reject</th>
         </tr>
@@ -48,6 +49,7 @@
             <td>{{dashboard_data[i][3]}}</td>
             <td>{{dashboard_data[i][4]}}</td>
             <td>{{dashboard_data[i][5]}}</td>
+            <td>Kurnool</td>
             {%if dashboard_data[i][4]==0%}
               <td><a class="btn btn-success" href="reqaccept/{{dashboard_data[i][5]}}/1">Accept</a></td>
               <td><a class="btn btn-danger" href="reqaccept/{{dashboard_data[i][5]}}/2">Reject</a></td>

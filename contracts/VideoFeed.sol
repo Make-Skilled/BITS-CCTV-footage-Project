@@ -8,6 +8,8 @@ contract VideoFeed {
   string[] _dates;
   string[] _times;
   string[] _videohashes;
+  string[] _locations;
+  string location="Kurnool";
 
   uint[] _requestby;
   uint[] _requestto;

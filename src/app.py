@@ -82,7 +82,7 @@ def pvtsignupform():
             tx_hash=contract.functions.addPrivateOfficial(name,email,password).transact()
             web3.eth.wait_for_transaction_receipt(tx_hash)
             return render_template('PvtSignUpForm.html',res='Signup Successful')
-        except:
+        except :
             return render_template('PvtSignUpForm.html',err='Already exist')
     
 @app.route('/govtsignupform',methods=['post'])
