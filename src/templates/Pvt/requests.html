@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Surveillance Hub</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Surveillance Hub</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/privatedashboard">Home</a></li>
+        <li><a href="/storageHistory">Storage History</a></li>
+        <li class="active"><a href="/pvtrequests">Requests</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <div class="row">
+    <div class="container col-sm-12">
+      <h2>Govt Requests</h2>
+      <table class="table table-bordered">
+        <tr>
+          <th>S.No</th>
+          <th>Government Id</th>
+          <th>Government Name</th>
+          <th>Government Email</th>
+          <th>Request Stream Id</th>
+          <th>Status</th>
+          <th>Request Id</th>
+          <th>Accept</th>
+          <th>Reject</th>
+        </tr>
+        {%for i in range(l)%}
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{dashboard_data[i][0]}}</td>
+            <td>{{dashboard_data[i][1]}}</td>
+            <td>{{dashboard_data[i][2]}}</td>
+            <td>{{dashboard_data[i][3]}}</td>
+            <td>{{dashboard_data[i][4]}}</td>
+            <td>{{dashboard_data[i][5]}}</td>
+            {%if dashboard_data[i][4]==0%}
+              <td><a class="btn btn-success" href="reqaccept/{{dashboard_data[i][5]}}/1">Accept</a></td>
+              <td><a class="btn btn-danger" href="reqaccept/{{dashboard_data[i][5]}}/2">Reject</a></td>
+            {%endif%}
+            {%if dashboard_data[i][4]==1%}
+              <td>Accepted</td>
+              <td><a class="btn btn-warning" href="reqaccept/{{dashboard_data[i][5]}}/3">Revoke</a></td>
+            {%endif%}
+            {%if dashboard_data[i][4]==3%}
+              <td colspan="2" style="text-align: center;">Expired</td>
+            {%endif%}
+            {%if dashboard_data[i][4]==2%}
+              <td colspan="2" style="text-align: center;">Rejected</td>
+            {%endif%}
+          </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

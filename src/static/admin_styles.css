@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "poppins";
+  padding: 24px 100px;
+}
+.dashboard-options {
+  text-decoration: underline;
+}
+.option {
+  height: 14px;
+  width: 14px;
+}
+.retreive-footage {
+  margin-top: 12px;
+}
+.retreive-form {
+  margin-top: 12px;
+  font-size: small;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid gray;
+  width: 350px;
+  border-radius: 6px;
+}
+.retreive-btn {
+  padding: 8px 16px;
+  background-color: black;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.retreive-btn:hover {
+  background-color: rgb(50, 50, 50);
+}
+.dashboard-options {
+    text-decoration: underline;
+  }
+  .option {
+    height: 14px;
+    width: 14px;
+  }
+  .footage-grid {
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .retreive-footage {
+    margin-top: 12px;
+  }
+  
+  .retreive-form {
+    margin-top: 12px;
+    font-size: small;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid gray;
+    width: 350px;
+    border-radius: 6px;
+  }
+  .retreive-btn {
+    padding: 8px 16px;
+    background-color: black;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  .retreive-btn:hover {
+    background-color: rgb(50, 50, 50);
+  }
+  .storage-history {
+    margin-top: 12px;
+  }
+  .history-item {
+    background-color: lightgray;
+    margin: 12px 0px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: medium;
+    font-weight: 500;
+  }
+  .view-more-btn {
+    display: flex;
+    justify-content: center;
+  }
+  .request {
+    display: flex;
+    justify-content: space-between;
+    background-color: lightgray;
+    margin: 12px 0px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: medium;
+    font-weight: 500;
+  }
+  .accept-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  .accept-btn:hover {
+    background-color: rgb(255, 70, 70);
+  }
+  .deny-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  .deny-btn:hover {
+    background-color: rgb(0, 160, 0);
+  }
+  

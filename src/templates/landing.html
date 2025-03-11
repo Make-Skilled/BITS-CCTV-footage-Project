@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>landing page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            font-family: "poppins", sans-serif;
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.9)),url(/templates/bg.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .main-body {
+            height: 100%;
+            width: 100%;
+            color: aliceblue;
+        }
+
+        .nav {
+            /* background-color: #7469B6; */
+            background:linear-gradient(rgba(255,255,255,0.2),rgba(255,255,255,0.2));
+            width: 100%;
+            height: fit-content;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            color: #E1AFD1;
+        }
+
+        .nav-left {
+            background-color: transparent;
+            width: 75%;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            gap: 15px;
+        }
+
+        .nav-left>.nav-img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .nav-right {
+            background-color: transparent;
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            font-size: larger;
+        }
+
+        .nav-right>p {
+            cursor: pointer;
+        }
+        .nav-right>p>a{
+            text-decoration: none;
+            color: #E1AFD1;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: fit-content;
+        }
+
+        .container-left {
+            width: 50%;
+            padding: 80px;
+        }
+        .container-left>h1{
+            font-size: 27px;
+        }
+        .container-left>p{
+            text-align: justify;
+        }
+
+        .container-right {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container-right>img{
+            height: 500px;
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-body">
+        <div class="nav">
+            <div class="nav-left">
+                <img class="nav-img" src="static/navImage.png" alt="Not-Found">
+                <h1>Surveillance Hub</h1>
+            </div>
+            <div class="nav-right">
+                <p>
+                    <a href="/signup">Sign Up</a>
+                </p>
+                <p>
+                    <a href="/signin">Sign In</a>
+                </p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="container-left">
+                <h1>Decentralized CCTV Footage Monitoring and Management System using IPFS</h1><br>
+                <p>The project addresses the vulnerability of CCTV footage as evidence of tampering by proposing a
+                    robust solution leveraging blockchain technology. In response to fraudulent activities attempting to
+                    manipulate video evidence, the system employs a decentralized file storage system IPFS, and utilizes
+                    a hashing technique. The proposed system ensures the privacy and integrity of video clips, marking a
+                    significant advancement in securing reliable video evidence for legal proceedings. <br><br>
+
+                    Building upon existing solutions, the project introduces innovative features, including selective
+                    encryption for privacy protection, tamper-proof blockchain storage, and decentralized sharing with
+                    access control. The diverse range of technologies involved, such as blockchain, and IPFS,
+                    collectively contribute to a trustworthy and efficient system for storing and verifying CCTV
+                    footage.
+                </p>
+            </div>
+            <div class="container-right">
+                <img src="static/landing.png" alt="Not-Found">
+            </div>
+        </div>
+        
+    </div>
+</body>
+
+</html>

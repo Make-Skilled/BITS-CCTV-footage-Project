@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Surveillance Hub</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Surveillance Hub</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/privatedashboard">Home</a></li>
+        <li class="active"><a href="/storageHistory">Storage History</a></li>
+        <li><a href="/pvtrequests">Requests</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <div class="row">
+    <div class="container">
+      <h2>Storage History</h2>
+      <table class="table table-bordered">
+        <tr>
+          <th>S.No</th>
+          <th>Stream Id</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>IPFS Hash</th>
+          <th>Download</th>
+          <th>Stream</th>
+        </tr>
+        {%for i in range(l)%}
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{dashboard_data[i][0]}}</td>
+            <td>{{dashboard_data[i][1]}}</td>
+            <td>{{dashboard_data[i][2]}}</td>
+            <td>{{dashboard_data[i][3]}}</td>
+            <td><a href="http://127.0.0.1:8081/ipfs/{{dashboard_data[i][3]}}">Download Video</a></td>
+            <td>
+              <video  width="320" height="240" controls>
+                <source src="http://127.0.0.1:8081/ipfs/{{dashboard_data[i][3]}}" type="video/ogg" />
+                Your browser does not support the video tag.
+              </video>
+            </td>
+          </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

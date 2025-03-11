@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignIn</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: "poppins", sans-serif;
+        }
+        body{
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url(/templates/bg.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .main-body {
+            height: 600px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: aliceblue;
+        }
+        .nav {
+            /* background-color: #7469B6; */
+            background:linear-gradient(rgba(255,255,255,0.2),rgba(255,255,255,0.2));
+            width: 100%;
+            height: fit-content;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            color: #E1AFD1;
+        }
+        .nav-left {
+            background-color: transparent;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            gap: 15px;
+        }
+        .nav-left>.nav-img {
+            height: 50px;
+            width: 50px;
+        }
+        
+        .nav-right {
+            background-color: transparent;
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            font-size: larger;
+        }
+
+        .nav-right>p {
+            cursor: pointer;
+        }
+        .nav-right>p>a{
+            text-decoration: none;
+            color: #E1AFD1;
+        }
+        .container {
+            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+            height: 70%;
+            width: 70%;
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .container>.header{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 20%;
+        }
+        .container-body{
+            height: 80%;
+        }
+        .container>.container-body>.top{
+            height: 20%;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        .container>.container-body>.bottom{
+            height: 80% ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+        }
+        .bottom>button{
+            padding: 50px;
+            background-color: #AD88C6;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .bottom>button:hover{
+            background-color: #7469B6;
+            border: 2px solid white
+        }
+        .bottom>button>a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav-left">
+            <img class="nav-img" src="static/navImage.png" alt="Not-Found">
+            <h1>Surveillance Hub</h1>
+        </div>
+        <div class="nav-right">
+            <p>
+                <a href="/">Home</a>
+            </p>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="container">
+            <div class="header">
+                <h1>Create Account</h1>
+            </div>
+            <div class="container-body">
+                <div class="top">
+                    <h2>Select User Type:</h2>
+                </div>
+                <div class="bottom">
+                    <button><a href="/pvtsignup">Private Firms</a></button>
+                    <button><a href="/govtsignup">Govt Officials</a></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

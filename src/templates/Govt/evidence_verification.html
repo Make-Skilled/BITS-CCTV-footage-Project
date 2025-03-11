@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Surveillance Hub</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    td {
+  border: 1px solid silver;
+  width: 20%;
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Surveillance Hub</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/govtdashboard">Home</a></li>
+        <li><a href="/accesskeys">View Access Keys</a></li>
+        <li class="active"><a href="/evidenceaudit">Evidence Audit</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <div class="row">
+    <div class="container col-sm-4"></div>
+    <div class="container col-sm-4">
+      <h2>Evidence Audit</h2>
+      <br/>
+      <form action="/audit" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Enter Evidence supported by client</label>
+          <input type="file" name="chooseFile" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label>Enter video shared by platform</label>
+          <input type="file" name="chooseFile1" class="form-control" />
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Audit the Proof</button>
+        </div>
+        <span style="color:red">{{err}}</span>
+        <span style="color:green">{{res}}</span>
+      </form>
+    </div>
+  </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

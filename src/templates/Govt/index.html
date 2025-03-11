@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Surveillance Hub</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Surveillance Hub</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/govtdashboard">Home</a></li>
+        <li><a href="/accesskeys">View Access Keys</a></li>
+        <li><a href="/evidenceaudit">Evidence Audit</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <div class="row">
+    <div class="container">
+      <h2>Send Request to Private Firms</h2>
+      <br/>
+      <form action="/sendreq" method="post">
+        <div class="form-group">
+          <label>Select Private Agency</label>
+          <select name="agency" class="form-control">
+            {%for i in range(l)%}
+              <option value="{{dashboard_data[i][0]}}">{{dashboard_data[i][1]}}</option>
+            {%endfor%}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Select Date</label>
+          <select name="date" class="form-control">
+            {%for i in range(l1)%}
+              <option value="{{dashboard_data1[i]}}">{{dashboard_data1[i]}}</option>
+            {%endfor%}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Select Time</label>
+          <select name="time" class="form-control">
+            {%for i in range(l2)%}
+              <option value="{{dashboard_data2[i]}}">{{dashboard_data2[i]}}</option>
+            {%endfor%}
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-danger">Send Request</button>
+        </div>
+        <span style="color:red">{{err}}</span>
+        <span style="color:green">{{res}}</span>
+      </form>
+    </div>
+  </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

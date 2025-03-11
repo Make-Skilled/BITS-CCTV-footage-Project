@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Surveillance Hub</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Surveillance Hub</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/admindashboard">Home</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <div class="row">
+    <div class="container">
+      <h2>My Registered Govt Users</h2>
+      <table class="table table-bordered">
+        <tr>
+          <th>S.No</th>
+          <th>Government Id</th>
+          <th>Government Name</th>
+          <th>Government Email</th>
+          <th>Status</th>
+          <th>Accept</th>
+          <th>Reject</th>
+        </tr>
+        {%for i in range(l)%}
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{dashboard_data[i][0]}}</td>
+          <td>{{dashboard_data[i][1]}}</td>
+          <td>{{dashboard_data[i][2]}}</td>
+          <td>{{dashboard_data[i][3]}}</td>
+          {%if dashboard_data[i][3]==0%}
+          <td><a class="btn btn-success" href="/govt/{{dashboard_data[i][0]}}/1">Accept</a></td>
+          <td><a class="btn btn-danger" href="/govt/{{dashboard_data[i][0]}}/0">Reject</a></td>
+          {%else%}
+            <td>Accepted</td>
+            <td><a class="btn btn-warning" href="/govt/{{dashboard_data[i][0]}}/0">Revoke</a></td>
+          {%endif%}
+
+        </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </div>
+
+<div class="row"><div class="container"></div></div>
+<div class="row">
+  <div class="container">
+    <h2>My Registered Pvt Users</h2>
+    <table class="table table-bordered">
+      <tr>
+        <th>S.No</th>
+        <th>Private Id</th>
+        <th>Private Name</th>
+        <th>Private Email</th>
+        <th>Status</th>
+        <th>Accept</th>
+        <th>Reject</th>
+      </tr>
+      {%for i in range(l1)%}
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{dashboard_data1[i][0]}}</td>
+          <td>{{dashboard_data1[i][1]}}</td>
+          <td>{{dashboard_data1[i][2]}}</td>
+          <td>{{dashboard_data1[i][3]}}</td>
+          {%if dashboard_data1[i][3]==0%}
+          <td><a class="btn btn-success" href="/private/{{dashboard_data1[i][0]}}/1">Accept</a></td>
+          <td><a class="btn btn-danger" href="/private/{{dashboard_data1[i][0]}}/0">Reject</a></td>
+          {%else%}
+            <td>Accepted</td>
+            <td><a class="btn btn-warning" href="/private/{{dashboard_data1[i][0]}}/0">Revoke</a></td>
+          {%endif%}
+
+        </tr>
+      {%endfor%}
+    </table> 
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
