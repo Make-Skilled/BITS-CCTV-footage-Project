@@ -1,8 +1,14 @@
-from flask import Flask ,render_template,request,redirect,session
+from flask import Flask ,render_template,request,redirect,session, send_from_directory
 from web3 import Web3,HTTPProvider
 import json
 import requests
 import ipfshttpclient
+from person_detection import PersonDetector
+import os
+from werkzeug.utils import secure_filename
+import time
+import random
+from database import Database
 
 # ipfs daemon
 
@@ -43,6 +49,18 @@ def connectWithVideoFeed(acc):
 
 app = Flask(__name__)
 app.secret_key='1234'
+
+# Add these constants after the app initialization
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Create uploads directory if it doesn't exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def lan():
@@ -370,5 +388,115 @@ def audit():
         return render_template('Govt/evidence_verification.html', res='Verified and OK')
     else:
         return render_template('Govt/evidence_verification.html', err='Fraud Evidence')
+
+# Add these new routes before the existing routes
+@app.route('/govt/checkinout')
+def govt_checkinout():
+    return render_template('govt_checkinout.html')
+
+def generate_unique_filename(prefix):
+    """Generate a unique filename using timestamp and random number"""
+    timestamp = int(time.time())
+    random_num = random.randint(1000, 9999)
+    return f"{prefix}_{timestamp}_{random_num}.mp4"
+
+@app.route('/govt/analyze_checkin', methods=['POST'])
+def analyze_checkin():
+    if 'checkin_video' not in request.files:
+        return redirect(request.url)
+    
+    file = request.files['checkin_video']
+    if file.filename == '':
+        return redirect(request.url)
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        input_path = os.path.join(app.config['UPLOAD_FOLDER'], 'checkin_' + filename)
+        output_filename = generate_unique_filename('checkin')
+        output_path = os.path.join(app.config['UPLOAD_FOLDER'], output_filename)
+        
+        file.save(input_path)
+        
+        try:
+            detector = PersonDetector()
+            results = detector.process_video(input_path, output_path)
+            
+            # Save results to database
+            db = Database()
+            db.save_analysis(
+                video_type='checkin',
+                video_path=output_filename,
+                max_count=results['total_count'],
+                total_count=results['total_unique_people'],
+                cumulative_counts=results['cumulative_counts']
+            )
+            
+            # Clean up input file
+            os.remove(input_path)
+            
+            return render_template('govt_checkinout.html',
+                                 checkin_count=results['total_count'],
+                                 checkin_total_unique=results['total_unique_people'],
+                                 checkin_cumulative=results['cumulative_counts'],
+                                 checkin_video_path=output_filename)
+        except Exception as e:
+            return f"Error processing video: {str(e)}"
+    
+    return redirect(request.url)
+
+@app.route('/govt/analyze_checkout', methods=['POST'])
+def analyze_checkout():
+    if 'checkout_video' not in request.files:
+        return redirect(request.url)
+    
+    file = request.files['checkout_video']
+    if file.filename == '':
+        return redirect(request.url)
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        input_path = os.path.join(app.config['UPLOAD_FOLDER'], 'checkout_' + filename)
+        output_filename = generate_unique_filename('checkout')
+        output_path = os.path.join(app.config['UPLOAD_FOLDER'], output_filename)
+        
+        file.save(input_path)
+        
+        try:
+            detector = PersonDetector()
+            results = detector.process_video(input_path, output_path)
+            
+            # Save results to database
+            db = Database()
+            db.save_analysis(
+                video_type='checkout',
+                video_path=output_filename,
+                max_count=results['total_count'],
+                total_count=results['total_unique_people'],
+                cumulative_counts=results['cumulative_counts']
+            )
+            
+            # Clean up input file
+            os.remove(input_path)
+            
+            return render_template('govt_checkinout.html',
+                                 checkout_count=results['total_count'],
+                                 checkout_total_unique=results['total_unique_people'],
+                                 checkout_cumulative=results['cumulative_counts'],
+                                 checkout_video_path=output_filename)
+        except Exception as e:
+            return f"Error processing video: {str(e)}"
+    
+    return redirect(request.url)
+
+@app.route('/govt/analysis_history')
+def analysis_history():
+    db = Database()
+    results = db.get_all_analysis()
+    return render_template('govt_checkinout.html', analysis_history=results)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 if __name__=="__main__":
     app.run(host='0.0.0.0',port=9001,debug=True)

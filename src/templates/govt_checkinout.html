@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in/Check-out Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .video-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .count-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        .chart-container {
+            margin-top: 20px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Check-in/Check-out Analysis</h2>
+        
+        <!-- Check-in Section -->
+        <div class="video-container">
+            <h3>Check-in Analysis</h3>
+            <form action="/govt/analyze_checkin" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="checkin_video" class="form-label">Upload Check-in Video</label>
+                    <input type="file" class="form-control" id="checkin_video" name="checkin_video" accept="video/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze Check-in</button>
+            </form>
+            {% if checkin_count is defined %}
+            <div class="result-container">
+                <h4>Check-in Results:</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Maximum People Count: <span class="count-display">{{ checkin_count }}</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Total People Detected: <span class="count-display">{{ checkin_total_unique }}</span></p>
+                    </div>
+                </div>
+                {% if checkin_video_path %}
+                <video width="100%" controls>
+                    <source src="/uploads/{{ checkin_video_path }}" type="video/mp4">
+                    <source src="/uploads/{{ checkin_video_path.replace('.mp4', '.avi') }}" type="video/x-msvideo">
+                    Your browser does not support the video tag.
+                </video>
+                {% endif %}
+                {% if checkin_cumulative %}
+                <div class="chart-container">
+                    <canvas id="checkinChart"></canvas>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Check-out Section -->
+        <div class="video-container">
+            <h3>Check-out Analysis</h3>
+            <form action="/govt/analyze_checkout" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="checkout_video" class="form-label">Upload Check-out Video</label>
+                    <input type="file" class="form-control" id="checkout_video" name="checkout_video" accept="video/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze Check-out</button>
+            </form>
+            {% if checkout_count is defined %}
+            <div class="result-container">
+                <h4>Check-out Results:</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Maximum People Count: <span class="count-display">{{ checkout_count }}</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Total People Detected: <span class="count-display">{{ checkout_total_unique }}</span></p>
+                    </div>
+                </div>
+                {% if checkout_video_path %}
+                <video width="100%" controls>
+                    <source src="/uploads/{{ checkout_video_path }}" type="video/mp4">
+                    <source src="/uploads/{{ checkout_video_path.replace('.mp4', '.avi') }}" type="video/x-msvideo">
+                    Your browser does not support the video tag.
+                </video>
+                {% endif %}
+                {% if checkout_cumulative %}
+                <div class="chart-container">
+                    <canvas id="checkoutChart"></canvas>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <a href="/govt/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+            <a href="/govt/analysis_history" class="btn btn-info">View Analysis History</a>
+        </div>
+
+        <!-- Analysis History Section -->
+        {% if analysis_history %}
+        <div class="video-container mt-4">
+            <h3>Analysis History</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Type</th>
+                            <th>Max Count</th>
+                            <th>Total Count</th>
+                            <th>Video</th>
+                            <th>Graph</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for analysis in analysis_history %}
+                        <tr>
+                            <td>{{ analysis.timestamp }}</td>
+                            <td>{{ analysis.video_type }}</td>
+                            <td>{{ analysis.max_count }}</td>
+                            <td>{{ analysis.total_count }}</td>
+                            <td>
+                                <video width="200" controls>
+                                    <source src="/uploads/{{ analysis.video_path }}" type="video/mp4">
+                                    <source src="/uploads/{{ analysis.video_path.replace('.mp4', '.avi') }}" type="video/x-msvideo">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </td>
+                            <td>
+                                <canvas id="historyChart{{ loop.index }}" width="300" height="150"></canvas>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        {% if checkin_cumulative %}
+        new Chart(document.getElementById('checkinChart'), {
+            type: 'line',
+            data: {
+                labels: Array.from({length: {{ checkin_cumulative|length }}}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'People Count',
+                    data: {{ checkin_cumulative|tojson }},
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        {% endif %}
+
+        {% if checkout_cumulative %}
+        new Chart(document.getElementById('checkoutChart'), {
+            type: 'line',
+            data: {
+                labels: Array.from({length: {{ checkout_cumulative|length }}}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'People Count',
+                    data: {{ checkout_cumulative|tojson }},
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        {% endif %}
+
+        {% if analysis_history %}
+        // Create charts for analysis history
+        {% for analysis in analysis_history %}
+        new Chart(document.getElementById('historyChart{{ loop.index }}'), {
+            type: 'line',
+            data: {
+                labels: Array.from({length: {{ analysis.cumulative_counts|length }}}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'People Count',
+                    data: {{ analysis.cumulative_counts|tojson }},
+                    borderColor: '{{ "rgb(75, 192, 192)" if analysis.video_type == "checkin" else "rgb(255, 99, 132)" }}',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html> 
